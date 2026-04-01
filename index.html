@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joshua Dunn — Social Media Manager & Content Creator</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --white: #f5f0eb;
+    --accent: #c8f542;
+    --accent2: #7B5EA7;
+    --grey: #1a1a1a;
+    --grey2: #2a2a2a;
+    --muted: #666;
+    --text: #c8c0b8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s ease, width 0.2s, height 0.2s, opacity 0.2s;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,245,66,0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: 0.1em;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  nav a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(200,245,66,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(123,94,167,0.08) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,245,66,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,245,66,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 30%, transparent);
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 14rem);
+    line-height: 0.88;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero h1 .outline {
+    -webkit-text-stroke: 1px rgba(245,240,235,0.3);
+    color: transparent;
+  }
+
+  .hero-sub {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-desc {
+    max-width: 420px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .hero-desc strong { color: var(--white); font-weight: 500; }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--accent);
+    color: var(--black);
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .hero-cta:hover { background: var(--white); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute;
+    right: 4rem;
+    bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+  }
+  .hero-scroll span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  /* STATS */
+  .stats {
+    border-top: 1px solid var(--grey2);
+    border-bottom: 1px solid var(--grey2);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .stat {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--grey2);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .stat:last-child { border-right: none; }
+  .stat:hover { background: rgba(200,245,66,0.03); }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    color: var(--white);
+    line-height: 0.95;
+    margin-bottom: 3rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text p strong { color: var(--white); font-weight: 500; }
+
+  .about-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .fact {
+    padding: 1.5rem;
+    border: 1px solid var(--grey2);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .fact:hover { border-color: rgba(200,245,66,0.3); }
+  .fact::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .fact-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .fact-text {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* BRANDS */
+  .brands-section { background: var(--grey); }
+
+  .brands-scroll {
+    overflow: hidden;
+    margin-top: 3rem;
+    position: relative;
+  }
+  .brands-scroll::before, .brands-scroll::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 100px;
+    z-index: 2;
+  }
+  .brands-scroll::before { left: 0; background: linear-gradient(to right, var(--grey), transparent); }
+  .brands-scroll::after { right: 0; background: linear-gradient(to left, var(--grey), transparent); }
+
+  .brands-track {
+    display: flex;
+    gap: 0;
+    animation: scroll 30s linear infinite;
+    width: max-content;
+  }
+
+  .brand-item {
+    padding: 1.2rem 2.5rem;
+    border-right: 1px solid var(--grey2);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+  .brand-item:hover { color: var(--accent); }
+
+  /* WORK */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 3rem;
+  }
+
+  .work-card {
+    background: var(--grey);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .work-card:hover { background: #1f1f1f; }
+
+  .work-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+    border-top: 1px solid rgba(200,245,66,0.2);
+  }
+
+  .work-card-inner { position: relative; z-index: 2; }
+
+  .work-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .work-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .work-role {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .work-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 2rem;
+    max-width: 600px;
+  }
+
+  .work-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .work-stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .work-stat-label {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.2rem;
+  }
+
+  .work-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--grey2);
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* YOUTUBE */
+  .yt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .yt-card {
+    background: var(--grey);
+    overflow: hidden;
+    transition: transform 0.3s;
+    text-decoration: none;
+    display: block;
+  }
+  .yt-card:hover { transform: translateY(-4px); }
+
+  .yt-thumb {
+    aspect-ratio: 16/9;
+    background: var(--grey2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .yt-play {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .yt-card:hover .yt-play { transform: scale(1.1); }
+
+  .yt-play::after {
+    content: '';
+    border-left: 16px solid var(--black);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    margin-left: 4px;
+  }
+
+  .yt-thumb-label {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0,0,0,0.8);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--white);
+    padding: 0.2rem 0.5rem;
+  }
+
+  .yt-info { padding: 1.2rem; }
+
+  .yt-title {
+    font-size: 0.88rem;
+    color: var(--white);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .yt-views {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+  }
+
+  /* SERVICES */
+  .services-section { background: var(--grey); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin-top: 3rem;
+    background: var(--grey2);
+  }
+
+  .service {
+    background: var(--grey);
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+  .service:hover { background: #202020; }
+
+  .service-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.03em;
+  }
+
+  .service-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* INFLUENCER WORK */
+  .influencer-section {}
+
+  .inf-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .inf-text p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+  .inf-text p strong { color: var(--white); font-weight: 500; }
+
+  .inf-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--grey2);
+  }
+
+  .inf-stat {
+    background: var(--grey);
+    padding: 1.8rem;
+  }
+
+  .inf-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .inf-stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.3rem;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--grey);
+    text-align: center;
+    padding: 8rem 4rem;
+  }
+
+  .contact-section .section-tag { justify-content: center; }
+  .contact-section .section-tag::after { display: none; }
+
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 8rem);
+    color: var(--white);
+    line-height: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  .contact-title .outline {
+    -webkit-text-stroke: 1px rgba(245,240,235,0.25);
+    color: transparent;
+  }
+
+  .contact-email {
+    display: inline-block;
+    font-size: 1.1rem;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,245,66,0.3);
+    padding-bottom: 0.25rem;
+    margin-bottom: 3rem;
+    transition: border-color 0.2s;
+    font-weight: 500;
+  }
+  .contact-email:hover { border-color: var(--accent); }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid var(--grey2);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .social-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--grey2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.4; transform: scaleY(0.8); }
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { padding: 0 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .about-grid, .inf-content { grid-template-columns: 1fr; gap: 3rem; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-card.featured { grid-column: span 1; }
+    .yt-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">JD<span>.</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#youtube">YouTube</a></li>
+    <li><a href="#brands">Brands</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <p class="hero-tag">// Social Media Manager · Content Creator · Digital Marketer</p>
+  <h1>
+    JOSHUA<br>
+    <span class="outline">DUNN</span>
+  </h1>
+  <div class="hero-sub">
+    <p class="hero-desc">
+      <strong>6+ years</strong> building audiences, driving revenue, and telling brand stories that convert — across social media, content, and digital marketing. Based in <strong>Krugersdorp, South Africa</strong>. Available EST/PST.
+    </p>
+    <a href="#contact" class="hero-cta">Hire Me →</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats">
+  <div class="stat">
+    <span class="stat-num">928K+</span>
+    <span class="stat-label">YouTube Views</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">R350K+</span>
+    <span class="stat-label">GMV Generated</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">65K</span>
+    <span class="stat-label">Views / 90 Days</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">20+</span>
+    <span class="stat-label">Brand Collabs</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">R500K</span>
+    <span class="stat-label">Investor Funding</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-tag">01 — About</p>
+    <h2 class="section-title">THE STORY<br>SO FAR</h2>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm Joshua Dunn — a <strong>digital marketing professional and content creator</strong> from Krugersdorp, South Africa with over 6 years of experience building audiences and driving real commercial results through social media.</p>
+      <p>I've worked as an influencer for <strong>20+ brands</strong> including Nike, Adidas, YSL, Puma, Converse, Reebok, Vans, Oakley, Diesel and more — executing briefs across Instagram, TikTok, and YouTube.</p>
+      <p>I co-founded <strong>Solemate</strong>, a sneaker reseller marketplace, where I built the brand from zero — growing a community, launching a Beefeater-sponsored store opening in Rosebank, and driving <strong>R350,000+ in GMV</strong> with no paid media spend.</p>
+      <p>My personal channel <strong>SneakerVaultSA</strong> has accumulated 928,000+ views through honest sneaker reviews, styling guides, and SA sneaker buyer guides — all organic.</p>
+    </div>
+    <div class="about-facts">
+      <div class="fact">
+        <div class="fact-num">6+ Years</div>
+        <div class="fact-text">Professional social media management & content creation</div>
+      </div>
+      <div class="fact">
+        <div class="fact-num">12.3K</div>
+        <div class="fact-text">Personal Instagram followers (@joshuadunn.__) — organic growth</div>
+      </div>
+      <div class="fact">
+        <div class="fact-num">4,300+</div>
+        <div class="fact-text">YouTube subscribers on SneakerVaultSA with 17K+ watch hours</div>
+      </div>
+      <div class="fact">
+        <div class="fact-num">138K</div>
+        <div class="fact-text">Views on single best-performing Instagram post</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section class="brands-section" id="brands">
+  <div class="reveal">
+    <p class="section-tag">02 — Brand Collaborations</p>
+    <h2 class="section-title">BRANDS I'VE<br>WORKED WITH</h2>
+  </div>
+  <div class="brands-scroll reveal">
+    <div class="brands-track" id="brandsTrack">
+      <span class="brand-item">Nike</span>
+      <span class="brand-item">Adidas</span>
+      <span class="brand-item">YSL</span>
+      <span class="brand-item">Puma</span>
+      <span class="brand-item">Converse</span>
+      <span class="brand-item">Reebok</span>
+      <span class="brand-item">Vans</span>
+      <span class="brand-item">Asics</span>
+      <span class="brand-item">Oakley</span>
+      <span class="brand-item">Diesel</span>
+      <span class="brand-item">Superbalist</span>
+      <span class="brand-item">Tekkie Town</span>
+      <span class="brand-item">Sidestep</span>
+      <span class="brand-item">Ballantine's</span>
+      <span class="brand-item">FUBU South Africa</span>
+      <span class="brand-item">Shesha</span>
+      <span class="brand-item">Jonathan D</span>
+      <span class="brand-item">Cleanr</span>
+      <span class="brand-item">Noble Sneaker Marketplace</span>
+      <span class="brand-item">Nike</span>
+      <span class="brand-item">Adidas</span>
+      <span class="brand-item">YSL</span>
+      <span class="brand-item">Puma</span>
+      <span class="brand-item">Converse</span>
+      <span class="brand-item">Reebok</span>
+      <span class="brand-item">Vans</span>
+      <span class="brand-item">Asics</span>
+      <span class="brand-item">Oakley</span>
+      <span class="brand-item">Diesel</span>
+      <span class="brand-item">Superbalist</span>
+      <span class="brand-item">Tekkie Town</span>
+      <span class="brand-item">Sidestep</span>
+      <span class="brand-item">Ballantine's</span>
+      <span class="brand-item">FUBU South Africa</span>
+      <span class="brand-item">Shesha</span>
+      <span class="brand-item">Jonathan D</span>
+      <span class="brand-item">Cleanr</span>
+      <span class="brand-item">Noble Sneaker Marketplace</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED WORK -->
+<section id="work">
+  <div class="reveal">
+    <p class="section-tag">03 — Featured Work</p>
+    <h2 class="section-title">PROJECTS THAT<br>MOVED THE NEEDLE</h2>
+  </div>
+
+  <div class="work-grid">
+    <!-- Solemate -->
+    <div class="work-card featured reveal">
+      <div class="work-card-inner">
+        <div class="work-year">2021 — 2023</div>
+        <div class="work-title">SOLEMATE</div>
+        <div class="work-role">Co-Founder & Social Media Manager · @hey.solemate</div>
+        <p class="work-desc">Built a verified sneaker reseller marketplace from zero — solving trust in a market flooded with fakes. Developed the full brand identity, social strategy, and content pipeline independently. Onboarded a vetted team of 7 resellers with 1,000+ pairs of authentic sneakers. Ran two community giveaways (Youth Day & Valentine's Day), launched a Beefeater-sponsored store opening in Rosebank, and secured R500,000 in investor funding through brand storytelling. All growth was organic — zero paid media spend.</p>
+        <div class="work-stats">
+          <div class="work-stat">
+            <span class="work-stat-num">R350K+</span>
+            <span class="work-stat-label">GMV Generated</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">25%</span>
+            <span class="work-stat-label">Revenue Growth</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">R500K</span>
+            <span class="work-stat-label">Investor Funding</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">7</span>
+            <span class="work-stat-label">Vetted Resellers</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">1,000+</span>
+            <span class="work-stat-label">Pairs Available</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">R0</span>
+            <span class="work-stat-label">Paid Media Spend</span>
+          </div>
+        </div>
+        <div class="work-tags">
+          <span class="tag">Brand Building</span>
+          <span class="tag">Content Strategy</span>
+          <span class="tag">Community Management</span>
+          <span class="tag">eCommerce</span>
+          <span class="tag">Influencer Activation</span>
+          <span class="tag">Event Marketing</span>
+          <span class="tag">Investor Storytelling</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal Brand -->
+    <div class="work-card reveal">
+      <div class="work-card-inner">
+        <div class="work-year">2019 — Present</div>
+        <div class="work-title">PERSONAL BRAND</div>
+        <div class="work-role">Content Creator · @joshuadunn.__</div>
+        <p class="work-desc">Built and consistently grown a streetwear and sneaker personal brand across Instagram and YouTube since 2019. Developed a distinct editorial aesthetic — dark, urban, and authentic — that attracted brand partnerships with 20+ global names. Top post: 138K views. 65K views in the last 90 days alone.</p>
+        <div class="work-stats">
+          <div class="work-stat">
+            <span class="work-stat-num">12.3K</span>
+            <span class="work-stat-label">Instagram Followers</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">138K</span>
+            <span class="work-stat-label">Best Post Views</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">65K</span>
+            <span class="work-stat-label">Views / 90 Days</span>
+          </div>
+        </div>
+        <div class="work-tags">
+          <span class="tag">Fashion</span>
+          <span class="tag">Streetwear</span>
+          <span class="tag">Sneakers</span>
+          <span class="tag">Reels</span>
+          <span class="tag">Influencer</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SneakerVaultSA -->
+    <div class="work-card reveal">
+      <div class="work-card-inner">
+        <div class="work-year">2019 — Present</div>
+        <div class="work-title">SNEAKERVAULTSA</div>
+        <div class="work-role">Founder & Creator · YouTube</div>
+        <p class="work-desc">South Africa's go-to sneaker YouTube channel — reviews, styling guides, and buyer guides tailored for the SA market. Independently scripted, filmed, edited, and published every video. Built a loyal audience of 4,300+ subscribers and 928,000+ views entirely through organic content.</p>
+        <div class="work-stats">
+          <div class="work-stat">
+            <span class="work-stat-num">928K+</span>
+            <span class="work-stat-label">Total Views</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">4,300+</span>
+            <span class="work-stat-label">Subscribers</span>
+          </div>
+          <div class="work-stat">
+            <span class="work-stat-num">17K+</span>
+            <span class="work-stat-label">Watch Hours</span>
+          </div>
+        </div>
+        <div class="work-tags">
+          <span class="tag">YouTube</span>
+          <span class="tag">Video Production</span>
+          <span class="tag">Reviews</span>
+          <span class="tag">Sneakers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YOUTUBE -->
+<section id="youtube" style="background: var(--grey);">
+  <div class="reveal">
+    <p class="section-tag">04 — SneakerVaultSA</p>
+    <h2 class="section-title">TOP PERFORMING<br>VIDEOS</h2>
+  </div>
+  <div class="yt-grid">
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
+      <div class="yt-thumb">
+        <div class="yt-play"></div>
+        <span class="yt-thumb-label">12:49</span>
+      </div>
+      <div class="yt-info">
+        <div class="yt-title">Where I Buy My Sneakers || South Africa</div>
+        <div class="yt-views">37K views · 969 likes · 92 comments</div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
+      <div class="yt-thumb">
+        <div class="yt-play"></div>
+        <span class="yt-thumb-label">10:26</span>
+      </div>
+      <div class="yt-info">
+        <div class="yt-title">How to Style the Adidas Forum | Koti...</div>
+        <div class="yt-views">31K views · 331 likes · 43 comments</div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
+      <div class="yt-thumb">
+        <div class="yt-play"></div>
+        <span class="yt-thumb-label">8:30</span>
+      </div>
+      <div class="yt-info">
+        <div class="yt-title">Where To Buy Sneakers In South Africa — Major Secrets</div>
+        <div class="yt-views">31K views · 506 likes · 135 comments</div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
+      <div class="yt-thumb">
+        <div class="yt-play"></div>
+        <span class="yt-thumb-label">9:29</span>
+      </div>
+      <div class="yt-info">
+        <div class="yt-title">Adidas Forum "White" In-Depth Review</div>
+        <div class="yt-views">29K views · 243 likes · 34 comments</div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
+      <div class="yt-thumb">
+        <div class="yt-play"></div>
+        <span class="yt-thumb-label">7:19</span>
+      </div>
+      <div class="yt-info">
+        <div class="yt-title">Puma's Answer to the Adidas Samba — Puma Palermo</div>
+        <div class="yt-views">21K views · 139 likes · 25 comments</div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
+      <div class="yt-thumb">
+        <div class="yt-play"></div>
+        <span class="yt-thumb-label">4:23</span>
+      </div>
+      <div class="yt-info">
+        <div class="yt-title">Asics Gel Venture 6 In-Depth Review</div>
+        <div class="yt-views">20K views · 90 likes · 30 comments</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- INFLUENCER -->
+<section id="influencer">
+  <div class="reveal">
+    <p class="section-tag">05 — Influencer Work</p>
+    <h2 class="section-title">BRIEF TO<br>EXECUTION</h2>
+  </div>
+  <div class="inf-content">
+    <div class="inf-text reveal">
+      <p>I've collaborated with <strong>20+ global and South African brands</strong> as an influencer — receiving briefs, developing creative concepts, and executing content that drives awareness and conversion.</p>
+      <p>From <strong>luxury fashion</strong> (YSL, Diesel) to <strong>major sportswear</strong> (Nike, Adidas, Puma, Reebok, Converse, Vans, Asics) to <strong>SA retail</strong> (Superbalist, Tekkie Town, Sidestep) — I've adapted my voice and aesthetic to serve each brand's specific audience and objectives.</p>
+      <p>Every collaboration is executed with a clear understanding of the brief, the platform, and the community — ensuring content that feels authentic rather than forced.</p>
+    </div>
+    <div class="inf-stats reveal">
+      <div class="inf-stat">
+        <div class="inf-stat-num">20+</div>
+        <div class="inf-stat-label">Brand Partnerships</div>
+      </div>
+      <div class="inf-stat">
+        <div class="inf-stat-num">138K</div>
+        <div class="inf-stat-label">Peak Post Views</div>
+      </div>
+      <div class="inf-stat">
+        <div class="inf-stat-num">65K</div>
+        <div class="inf-stat-label">Views Last 90 Days</div>
+      </div>
+      <div class="inf-stat">
+        <div class="inf-stat-num">12.3K</div>
+        <div class="inf-stat-label">IG Followers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="reveal">
+    <p class="section-tag">06 — Services</p>
+    <h2 class="section-title">WHAT I<br>BRING TO THE TABLE</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service reveal">
+      <span class="service-icon">📱</span>
+      <div class="service-title">Social Media Management</div>
+      <p class="service-desc">End-to-end management of multi-platform social accounts — strategy, content calendars, scheduling, community engagement, and monthly reporting across Instagram, TikTok, Facebook, YouTube, and LinkedIn.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service-icon">🎬</span>
+      <div class="service-title">Content Creation</div>
+      <p class="service-desc">Original content across all formats — scripted short-form video (TikTok/Reels), long-form YouTube, static graphics (Canva), and platform-specific copy. Full production from concept through to publish.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service-icon">📊</span>
+      <div class="service-title">Strategy & Analytics</div>
+      <p class="service-desc">Data-driven strategy built on performance analytics, A/B testing, and trend monitoring. KPI tracking across Meta Business Suite, Google Analytics, and YouTube Analytics with actionable monthly reporting.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service-icon">🤝</span>
+      <div class="service-title">Influencer Marketing</div>
+      <p class="service-desc">Brief interpretation and execution as an influencer, plus influencer identification and partnership management. Experienced activating creator communities for brand launches, giveaways, and campaigns.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service-icon">🛒</span>
+      <div class="service-title">eCommerce Growth</div>
+      <p class="service-desc">Organic social strategy that drives real commercial outcomes. Proven track record of linking content directly to revenue — R350K+ GMV with zero paid media spend through community-first storytelling.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service-icon">⚡</span>
+      <div class="service-title">Brand Storytelling</div>
+      <p class="service-desc">Building brand identity from zero through authentic, consistent content. From investor decks to community posts — I turn brand thinking into compelling digital narratives that convert audiences into advocates.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <p class="section-tag reveal">07 — Contact</p>
+  <h2 class="contact-title reveal">LET'S<br><span class="outline">WORK</span><br>TOGETHER</h2>
+  <a href="mailto:joshuadnn@gmail.com" class="contact-email reveal">joshuadnn@gmail.com</a>
+  <div class="social-links reveal">
+    <a href="https://www.instagram.com/joshuadunn.__/" target="_blank" class="social-link">📸 Instagram</a>
+    <a href="https://www.instagram.com/hey.solemate/" target="_blank" class="social-link">👟 Solemate</a>
+    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="social-link">▶ YouTube</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Joshua Dunn. All rights reserved.</p>
+  <p>Krugersdorp, South Africa · EST/PST Available</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+      ring.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
