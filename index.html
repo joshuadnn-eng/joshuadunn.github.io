@@ -1,1234 +1,642 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joshua Dunn — Social Media Manager & Content Creator</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --black: #080808;
-    --white: #f5f0eb;
-    --accent: #c8f542;
-    --accent2: #7B5EA7;
-    --grey: #1a1a1a;
-    --grey2: #2a2a2a;
-    --muted: #666;
-    --text: #c8c0b8;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-    transform: translate(-50%, -50%);
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.15s ease, width 0.2s, height 0.2s, opacity 0.2s;
-    transform: translate(-50%, -50%);
-    opacity: 0.5;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 4rem;
-    background: rgba(8,8,8,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(200,245,66,0.08);
-  }
-
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    color: var(--white);
-    letter-spacing: 0.1em;
-  }
-  .nav-logo span { color: var(--accent); }
-
-  nav ul {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  nav a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    font-weight: 500;
-  }
-  nav a:hover { color: var(--accent); }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 4rem 5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(200,245,66,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(123,94,167,0.08) 0%, transparent 60%);
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(200,245,66,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(200,245,66,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 30%, transparent);
-  }
-
-  .hero-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-
-  .hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(5rem, 12vw, 14rem);
-    line-height: 0.88;
-    color: var(--white);
-    letter-spacing: -0.01em;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.4s forwards;
-  }
-
-  .hero h1 .outline {
-    -webkit-text-stroke: 1px rgba(245,240,235,0.3);
-    color: transparent;
-  }
-
-  .hero-sub {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    margin-top: 2.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.6s forwards;
-  }
-
-  .hero-desc {
-    max-width: 420px;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--muted);
-  }
-
-  .hero-desc strong { color: var(--white); font-weight: 500; }
-
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--accent);
-    color: var(--black);
-    padding: 1rem 2rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-  .hero-cta:hover { background: var(--white); transform: translateY(-2px); }
-
-  .hero-scroll {
-    position: absolute;
-    right: 4rem;
-    bottom: 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.2s forwards;
-  }
-  .hero-scroll span {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    writing-mode: vertical-rl;
-  }
-  .scroll-line {
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-    animation: scrollPulse 2s ease infinite;
-  }
-
-  /* STATS */
-  .stats {
-    border-top: 1px solid var(--grey2);
-    border-bottom: 1px solid var(--grey2);
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .stat {
-    padding: 2.5rem 2rem;
-    border-right: 1px solid var(--grey2);
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-  .stat:last-child { border-right: none; }
-  .stat:hover { background: rgba(200,245,66,0.03); }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.8rem;
-    color: var(--accent);
-    line-height: 1;
-    display: block;
-  }
-
-  .stat-label {
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-top: 0.4rem;
-    display: block;
-  }
-
-  /* SECTIONS */
-  section { padding: 6rem 4rem; }
-
-  .section-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .section-tag::after {
-    content: '';
-    flex: 1;
-    max-width: 60px;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0.4;
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 5rem);
-    color: var(--white);
-    line-height: 0.95;
-    margin-bottom: 3rem;
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-  }
-
-  .about-text p {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: var(--text);
-    margin-bottom: 1.2rem;
-  }
-
-  .about-text p strong { color: var(--white); font-weight: 500; }
-
-  .about-facts {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .fact {
-    padding: 1.5rem;
-    border: 1px solid var(--grey2);
-    position: relative;
-    transition: border-color 0.3s;
-  }
-  .fact:hover { border-color: rgba(200,245,66,0.3); }
-  .fact::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--accent);
-  }
-
-  .fact-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .fact-text {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-top: 0.3rem;
-  }
-
-  /* BRANDS */
-  .brands-section { background: var(--grey); }
-
-  .brands-scroll {
-    overflow: hidden;
-    margin-top: 3rem;
-    position: relative;
-  }
-  .brands-scroll::before, .brands-scroll::after {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 100px;
-    z-index: 2;
-  }
-  .brands-scroll::before { left: 0; background: linear-gradient(to right, var(--grey), transparent); }
-  .brands-scroll::after { right: 0; background: linear-gradient(to left, var(--grey), transparent); }
-
-  .brands-track {
-    display: flex;
-    gap: 0;
-    animation: scroll 30s linear infinite;
-    width: max-content;
-  }
-
-  .brand-item {
-    padding: 1.2rem 2.5rem;
-    border-right: 1px solid var(--grey2);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    white-space: nowrap;
-    transition: color 0.3s;
-  }
-  .brand-item:hover { color: var(--accent); }
-
-  /* WORK */
-  .work-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    margin-top: 3rem;
-  }
-
-  .work-card {
-    background: var(--grey);
-    padding: 3rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-  .work-card:hover { background: #1f1f1f; }
-
-  .work-card.featured {
-    grid-column: span 2;
-    background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
-    border-top: 1px solid rgba(200,245,66,0.2);
-  }
-
-  .work-card-inner { position: relative; z-index: 2; }
-
-  .work-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    margin-bottom: 1rem;
-  }
-
-  .work-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
-    color: var(--white);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-
-  .work-role {
-    font-size: 0.8rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-
-  .work-desc {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 2rem;
-    max-width: 600px;
-  }
-
-  .work-stats {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .work-stat {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .work-stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .work-stat-label {
-    font-size: 0.68rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 0.2rem;
-  }
-
-  .work-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-  }
-
-  .tag {
-    font-size: 0.7rem;
-    padding: 0.35rem 0.8rem;
-    border: 1px solid var(--grey2);
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  /* YOUTUBE */
-  .yt-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  .yt-card {
-    background: var(--grey);
-    overflow: hidden;
-    transition: transform 0.3s;
-    text-decoration: none;
-    display: block;
-  }
-  .yt-card:hover { transform: translateY(-4px); }
-
-  .yt-thumb {
-    aspect-ratio: 16/9;
-    background: var(--grey2);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .yt-play {
-    width: 48px;
-    height: 48px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
-  }
-  .yt-card:hover .yt-play { transform: scale(1.1); }
-
-  .yt-play::after {
-    content: '';
-    border-left: 16px solid var(--black);
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    margin-left: 4px;
-  }
-
-  .yt-thumb-label {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    background: rgba(0,0,0,0.8);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--white);
-    padding: 0.2rem 0.5rem;
-  }
-
-  .yt-info { padding: 1.2rem; }
-
-  .yt-title {
-    font-size: 0.88rem;
-    color: var(--white);
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
-  }
-
-  .yt-views {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-  }
-
-  /* SERVICES */
-  .services-section { background: var(--grey); }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    margin-top: 3rem;
-    background: var(--grey2);
-  }
-
-  .service {
-    background: var(--grey);
-    padding: 2.5rem;
-    transition: background 0.3s;
-  }
-  .service:hover { background: #202020; }
-
-  .service-icon {
-    font-size: 1.5rem;
-    margin-bottom: 1.2rem;
-    display: block;
-  }
-
-  .service-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    color: var(--white);
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.03em;
-  }
-
-  .service-desc {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* INFLUENCER WORK */
-  .influencer-section {}
-
-  .inf-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-    margin-top: 3rem;
-  }
-
-  .inf-text p {
-    font-size: 0.95rem;
-    line-height: 1.8;
-    color: var(--text);
-    margin-bottom: 1.2rem;
-  }
-  .inf-text p strong { color: var(--white); font-weight: 500; }
-
-  .inf-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--grey2);
-  }
-
-  .inf-stat {
-    background: var(--grey);
-    padding: 1.8rem;
-  }
-
-  .inf-stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .inf-stat-label {
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 0.3rem;
-  }
-
-  /* CONTACT */
-  .contact-section {
-    background: var(--grey);
-    text-align: center;
-    padding: 8rem 4rem;
-  }
-
-  .contact-section .section-tag { justify-content: center; }
-  .contact-section .section-tag::after { display: none; }
-
-  .contact-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 7vw, 8rem);
-    color: var(--white);
-    line-height: 0.9;
-    margin-bottom: 2rem;
-  }
-
-  .contact-title .outline {
-    -webkit-text-stroke: 1px rgba(245,240,235,0.25);
-    color: transparent;
-  }
-
-  .contact-email {
-    display: inline-block;
-    font-size: 1.1rem;
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(200,245,66,0.3);
-    padding-bottom: 0.25rem;
-    margin-bottom: 3rem;
-    transition: border-color 0.2s;
-    font-weight: 500;
-  }
-  .contact-email:hover { border-color: var(--accent); }
-
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.8rem 1.6rem;
-    border: 1px solid var(--grey2);
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    font-weight: 500;
-  }
-  .social-link:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* FOOTER */
-  footer {
-    padding: 2rem 4rem;
-    border-top: 1px solid var(--grey2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  footer p {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 1; transform: scaleY(1); }
-    50% { opacity: 0.4; transform: scaleY(0.8); }
-  }
-
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* NOISE OVERLAY */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
-  }
-
-  @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; }
-    nav ul { display: none; }
-    .hero { padding: 0 1.5rem 3rem; }
-    section { padding: 4rem 1.5rem; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .about-grid, .inf-content { grid-template-columns: 1fr; gap: 3rem; }
-    .work-grid { grid-template-columns: 1fr; }
-    .work-card.featured { grid-column: span 1; }
-    .yt-grid { grid-template-columns: 1fr; }
-    .services-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joshua Dunn | Marketing, Strategy & Web</title>
+  <meta name="description" content="Joshua Dunn: marketing and strategy, web development and brand building from Johannesburg. Co-founder of Solemate and founder of Well Dunn Group.">
+  <meta name="theme-color" content="#0B1530">
+  <link rel="canonical" href="https://joshuadnn-eng.github.io/joshuadunn.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joshuadnn-eng.github.io/joshuadunn.github.io/">
+  <meta property="og:title" content="Joshua Dunn | Marketing, Strategy &amp; Web">
+  <meta property="og:description" content="Joshua Dunn: marketing and strategy, web development and brand building from Johannesburg. Co-founder of Solemate and founder of Well Dunn Group.">
+  <meta property="og:image" content="https://joshuadnn-eng.github.io/joshuadunn.github.io/assets/img/share-professional.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/logos/wdg-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+  <!-- ============ INTRO ============ -->
+  <header class="hero" id="top">
+    <nav class="topbar" aria-label="Main">
+      <a class="brand" href="#top">
+        <img src="assets/img/logos/wdg-mark-reversed.svg" alt="" width="34" height="34">
+        <span>Joshua Dunn</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#marketing">Marketing</a></li>
+        <li><a href="#web">Web</a></li>
+        <li><a href="#content">Brand</a></li>
+        <li><a class="nav-cta" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">JD<span>.</span></div>
-  <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#youtube">YouTube</a></li>
-    <li><a href="#brands">Brands</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+    <div class="stage">
+      <span class="plus p1" aria-hidden="true">+</span>
+      <span class="plus p2" aria-hidden="true">+</span>
+      <span class="plus p3" aria-hidden="true">+</span>
+      <span class="plus p4" aria-hidden="true">+</span>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
+      <div class="title-wrap">
+        <p class="welcome">Welcome<br>to my</p>
+        <span class="arrow left" aria-hidden="true">&#9666;</span>
+        <span class="arrow right" aria-hidden="true">&#9656;</span>
 
-  <p class="hero-tag">// Social Media Manager · Content Creator · Digital Marketer</p>
-  <h1>
-    JOSHUA<br>
-    <span class="outline">DUNN</span>
-  </h1>
-  <div class="hero-sub">
-    <p class="hero-desc">
-      <strong>6+ years</strong> building audiences, driving revenue, and telling brand stories that convert — across social media, content, and digital marketing. Based in <strong>Krugersdorp, South Africa</strong>. Available EST/PST.
-    </p>
-    <a href="#contact" class="hero-cta">Hire Me →</a>
-  </div>
-
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
-
-<!-- STATS BAR -->
-<div class="stats">
-  <div class="stat">
-    <span class="stat-num">928K+</span>
-    <span class="stat-label">YouTube Views</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num">R350K+</span>
-    <span class="stat-label">GMV Generated</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num">65K</span>
-    <span class="stat-label">Views / 90 Days</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num">20+</span>
-    <span class="stat-label">Brand Collabs</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num">R500K</span>
-    <span class="stat-label">Investor Funding</span>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="reveal">
-    <p class="section-tag">01 — About</p>
-    <h2 class="section-title">THE STORY<br>SO FAR</h2>
-  </div>
-  <div class="about-grid reveal">
-    <div class="about-text">
-      <p>I'm Joshua Dunn — a <strong>digital marketing professional and content creator</strong> from Krugersdorp, South Africa with over 6 years of experience building audiences and driving real commercial results through social media.</p>
-      <p>I've worked as an influencer for <strong>20+ brands</strong> including Nike, Adidas, YSL, Puma, Converse, Reebok, Vans, Oakley, Diesel and more — executing briefs across Instagram, TikTok, and YouTube.</p>
-      <p>I co-founded <strong>Solemate</strong>, a sneaker reseller marketplace, where I built the brand from zero — growing a community, launching a Beefeater-sponsored store opening in Rosebank, and driving <strong>R350,000+ in GMV</strong> with no paid media spend.</p>
-      <p>My personal channel <strong>SneakerVaultSA</strong> has accumulated 928,000+ views through honest sneaker reviews, styling guides, and SA sneaker buyer guides — all organic.</p>
-    </div>
-    <div class="about-facts">
-      <div class="fact">
-        <div class="fact-num">6+ Years</div>
-        <div class="fact-text">Professional social media management & content creation</div>
-      </div>
-      <div class="fact">
-        <div class="fact-num">12.3K</div>
-        <div class="fact-text">Personal Instagram followers (@joshuadunn.__) — organic growth</div>
-      </div>
-      <div class="fact">
-        <div class="fact-num">4,300+</div>
-        <div class="fact-text">YouTube subscribers on SneakerVaultSA with 17K+ watch hours</div>
-      </div>
-      <div class="fact">
-        <div class="fact-num">138K</div>
-        <div class="fact-text">Views on single best-performing Instagram post</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BRANDS -->
-<section class="brands-section" id="brands">
-  <div class="reveal">
-    <p class="section-tag">02 — Brand Collaborations</p>
-    <h2 class="section-title">BRANDS I'VE<br>WORKED WITH</h2>
-  </div>
-  <div class="brands-scroll reveal">
-    <div class="brands-track" id="brandsTrack">
-      <span class="brand-item">Nike</span>
-      <span class="brand-item">Adidas</span>
-      <span class="brand-item">YSL</span>
-      <span class="brand-item">Puma</span>
-      <span class="brand-item">Converse</span>
-      <span class="brand-item">Reebok</span>
-      <span class="brand-item">Vans</span>
-      <span class="brand-item">Asics</span>
-      <span class="brand-item">Oakley</span>
-      <span class="brand-item">Diesel</span>
-      <span class="brand-item">Superbalist</span>
-      <span class="brand-item">Tekkie Town</span>
-      <span class="brand-item">Sidestep</span>
-      <span class="brand-item">Ballantine's</span>
-      <span class="brand-item">FUBU South Africa</span>
-      <span class="brand-item">Shesha</span>
-      <span class="brand-item">Jonathan D</span>
-      <span class="brand-item">Cleanr</span>
-      <span class="brand-item">Noble Sneaker Marketplace</span>
-      <span class="brand-item">Nike</span>
-      <span class="brand-item">Adidas</span>
-      <span class="brand-item">YSL</span>
-      <span class="brand-item">Puma</span>
-      <span class="brand-item">Converse</span>
-      <span class="brand-item">Reebok</span>
-      <span class="brand-item">Vans</span>
-      <span class="brand-item">Asics</span>
-      <span class="brand-item">Oakley</span>
-      <span class="brand-item">Diesel</span>
-      <span class="brand-item">Superbalist</span>
-      <span class="brand-item">Tekkie Town</span>
-      <span class="brand-item">Sidestep</span>
-      <span class="brand-item">Ballantine's</span>
-      <span class="brand-item">FUBU South Africa</span>
-      <span class="brand-item">Shesha</span>
-      <span class="brand-item">Jonathan D</span>
-      <span class="brand-item">Cleanr</span>
-      <span class="brand-item">Noble Sneaker Marketplace</span>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURED WORK -->
-<section id="work">
-  <div class="reveal">
-    <p class="section-tag">03 — Featured Work</p>
-    <h2 class="section-title">PROJECTS THAT<br>MOVED THE NEEDLE</h2>
-  </div>
-
-  <div class="work-grid">
-    <!-- Solemate -->
-    <div class="work-card featured reveal">
-      <div class="work-card-inner">
-        <div class="work-year">2021 — 2023</div>
-        <div class="work-title">SOLEMATE</div>
-        <div class="work-role">Co-Founder & Social Media Manager · @hey.solemate</div>
-        <p class="work-desc">Built a verified sneaker reseller marketplace from zero — solving trust in a market flooded with fakes. Developed the full brand identity, social strategy, and content pipeline independently. Onboarded a vetted team of 7 resellers with 1,000+ pairs of authentic sneakers. Ran two community giveaways (Youth Day & Valentine's Day), launched a Beefeater-sponsored store opening in Rosebank, and secured R500,000 in investor funding through brand storytelling. All growth was organic — zero paid media spend.</p>
-        <div class="work-stats">
-          <div class="work-stat">
-            <span class="work-stat-num">R350K+</span>
-            <span class="work-stat-label">GMV Generated</span>
-          </div>
-          <div class="work-stat">
-            <span class="work-stat-num">25%</span>
-            <span class="work-stat-label">Revenue Growth</span>
-          </div>
-          <div class="work-stat">
-            <span class="work-stat-num">R500K</span>
-            <span class="work-stat-label">Investor Funding</span>
-          </div>
-          <div class="work-stat">
-            <span class="work-stat-num">7</span>
-            <span class="work-stat-label">Vetted Resellers</span>
-          </div>
-          <div class="work-stat">
-            <span class="work-stat-num">1,000+</span>
-            <span class="work-stat-label">Pairs Available</span>
-          </div>
-          <div class="work-stat">
-            <span class="work-stat-num">R0</span>
-            <span class="work-stat-label">Paid Media Spend</span>
-          </div>
-        </div>
-        <div class="work-tags">
-          <span class="tag">Brand Building</span>
-          <span class="tag">Content Strategy</span>
-          <span class="tag">Community Management</span>
-          <span class="tag">eCommerce</span>
-          <span class="tag">Influencer Activation</span>
-          <span class="tag">Event Marketing</span>
-          <span class="tag">Investor Storytelling</span>
+        <span class="block" aria-hidden="true"></span>
+        <h1 class="headline">
+          <span class="sr-only">Joshua Dunn, portfolio</span>
+          <span class="row outline r1" aria-hidden="true">Portfolio</span>
+          <span class="row solid" aria-hidden="true">Portfolio</span>
+          <span class="row outline r3" aria-hidden="true">Portfolio</span>
+        </h1>
+        <div class="headline clone" aria-hidden="true">
+          <span class="row outline r1">Portfolio</span>
+          <span class="row solid">Portfolio</span>
+          <span class="row outline r3">Portfolio</span>
         </div>
       </div>
-    </div>
 
-    <!-- Personal Brand -->
-    <div class="work-card reveal">
-      <div class="work-card-inner">
-        <div class="work-year">2019 — Present</div>
-        <div class="work-title">PERSONAL BRAND</div>
-        <div class="work-role">Content Creator · @joshuadunn.__</div>
-        <p class="work-desc">Built and consistently grown a streetwear and sneaker personal brand across Instagram and YouTube since 2019. Developed a distinct editorial aesthetic — dark, urban, and authentic — that attracted brand partnerships with 20+ global names. Top post: 138K views. 65K views in the last 90 days alone.</p>
-        <div class="work-stats">
-          <div class="work-stat">
-            <span class="work-stat-num">12.3K</span>
-            <span class="work-stat-label">Instagram Followers</span>
+      <div class="subline">
+        <span>Joshua Dunn · Johannesburg</span>
+        <span>Marketing · Web · Brand</span>
+      </div>
+
+      <div class="fan">
+        <div class="pivot">
+          <!-- Card photos are placeholders (Unsplash, tinted navy/gold): swap the img src to replace -->
+          <a class="card" href="#web" style="--i:1; --a:-22deg">
+            <img src="assets/img/placeholders/web.webp" alt="">
+            <span class="card-no">02</span>
+            <span class="card-title">Web <br>Development</span>
+          </a>
+          <a class="card align-right" href="#content" style="--i:3; --a:22deg">
+            <img src="assets/img/placeholders/content.webp" alt="">
+            <span class="card-no">03</span>
+            <span class="card-title">Brand <br>Building</span>
+          </a>
+          <a class="card center" href="#marketing" style="--i:2; --a:0deg">
+            <img src="assets/img/placeholders/marketing.webp" alt="">
+            <span class="card-no">01</span>
+            <span class="card-title">Marketing <br>&amp; Strategy</span>
+          </a>
+        </div>
+
+        <a class="badge" href="#about" aria-label="About me">
+          <span class="me-tag" aria-hidden="true">&#9650;<br>Me</span>
+          <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="ring-path" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs>
+            <text><textPath href="#ring-path">JOSHUA DUNN • MARKETING • WEB • BRAND •</textPath></text>
+          </svg>
+          <img class="face" src="assets/img/me/me-badge.webp" alt="" width="600" height="600">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section tabs: with JS, only the chosen section shows; without JS, all sections show in one scroll -->
+  <div id="sections-top" aria-hidden="true"></div>
+  <nav class="section-tabs" aria-label="Sections">
+    <div class="tabs-track">
+      <a href="#about">About</a>
+      <a href="#marketing"><span>01</span>Marketing</a>
+      <a href="#web"><span>02</span>Web</a>
+      <a href="#content"><span>03</span>Brand</a>
+      <a href="#experience"><span>04</span>Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about">
+      <div class="wrap about-grid">
+        <figure class="about-photo" data-reveal>
+          <img src="assets/img/me/me-about.webp" alt="Joshua Dunn in a yellow track top and black trousers against a grey wall" loading="lazy">
+          <figcaption>Johannesburg, ZA</figcaption>
+        </figure>
+
+        <div class="about-copy">
+          <p class="eyebrow" data-reveal>Why work with me</p>
+          <h2 class="h-xl" data-reveal>I bridge the gap between <span class="gold">creativity</span> and <span class="gold">execution.</span></h2>
+          <p class="lead" data-reveal>
+            Six years of turning marketing strategy into execution led me to co-found <strong>Solemate</strong>,
+            a sneaker marketplace with a physical store and an online presence, and one of the first sneaker
+            resale stores in South Africa with its own app. Along the way I went from content consumer to
+            content producer, and that's what led me to open <strong>Well Dunn Group</strong>, a digital
+            marketing &amp; web studio.
+          </p>
+
+          <ul class="reasons" data-reveal>
+            <li>
+              <b>I think like a founder.</b>
+              I've raised investment, opened a store and launched an app, so I plan around real budgets and real sales.
+            </li>
+            <li>
+              <b>I test it on my own brand first.</b>
+              SneakerVaultSA is my lab: over a million organic views, built and run by me.
+            </li>
+            <li>
+              <b>I build what I plan.</b>
+              Strategy, website and content from one person, so nothing gets lost in the hand-off.
+            </li>
+          </ul>
+
+          <p class="availability" data-reveal>Open to full-time remote roles and new Well Dunn Group projects.</p>
+
+          <ul class="stats" data-reveal>
+            <li><strong>6 yrs</strong><span>of turning ideas into launches</span></li>
+            <li><strong>R350K+</strong><span>sold through Solemate in six months</span></li>
+            <li><strong>1M+</strong><span>organic views on a media brand I built from scratch</span></li>
+            <li><strong>2.5M</strong><span>views on one short-form video that stopped the scroll</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="brands" aria-label="Brands I've put in front of an audience">
+        <p class="brands-label">Brands I've put in front of an audience</p>
+        <div class="marquee">
+          <div class="marquee-track">
+            <span>ASICS</span><span>adidas</span><span>Nike</span><span>Puma</span><span>Reebok</span>
+            <span>Converse</span><span>Superbalist</span><span>Shesha</span><span>Sportscene</span><span>YSL</span>
           </div>
-          <div class="work-stat">
-            <span class="work-stat-num">138K</span>
-            <span class="work-stat-label">Best Post Views</span>
-          </div>
-          <div class="work-stat">
-            <span class="work-stat-num">65K</span>
-            <span class="work-stat-label">Views / 90 Days</span>
+          <div class="marquee-track" aria-hidden="true">
+            <span>ASICS</span><span>adidas</span><span>Nike</span><span>Puma</span><span>Reebok</span>
+            <span>Converse</span><span>Superbalist</span><span>Shesha</span><span>Sportscene</span><span>YSL</span>
           </div>
         </div>
-        <div class="work-tags">
-          <span class="tag">Fashion</span>
-          <span class="tag">Streetwear</span>
-          <span class="tag">Sneakers</span>
-          <span class="tag">Reels</span>
-          <span class="tag">Influencer</span>
+      </div>
+    </section>
+
+    <!-- ============ 01 MARKETING & STRATEGY ============ -->
+    <section class="section" id="marketing">
+      <div class="wrap">
+        <header class="sec-head" data-reveal>
+          <span class="sec-no">01</span>
+          <h2 class="h-sec">Marketing <br>&amp; Strategy</h2>
+          <p class="sec-intro">Plans that leave the whiteboard. I find the angle, build the plan, and stay for the numbers.</p>
+        </header>
+
+        <!-- Solemate -->
+        <article class="case">
+          <div class="case-intro">
+            <div class="case-text" data-reveal>
+              <p class="kicker">Case study · 2021 – 2024</p>
+              <h3 class="h-case">Solemate</h3>
+              <p class="role">Co-founder &amp; Head of Marketing and Community</p>
+              <p>
+                Four founders, one pop-up and a sneaker app. Vuyo Pakade, Olebogeng Radise, Polo and I built
+                Solemate to make buying and selling authentic sneakers simple and trustworthy. The Sneaker Shack
+                backed us with R500K, we opened a pop-up at 33 Baker Street, Rosebank, and put the app live a
+                month later. I ran the marketing and the community.
+              </p>
+              <a class="btn" href="work/solemate.html">Read the full case study <span aria-hidden="true">&#8599;</span></a>
+            </div>
+            <figure class="case-hero" data-reveal>
+              <img src="assets/img/solemate/founders.webp" alt="The Solemate 'Meet the founders' post: Vuyo, Josh, Ole and Polo" loading="lazy">
+            </figure>
+          </div>
+
+          <ul class="results" data-reveal>
+            <li><strong>R500K</strong><span>raised from The Sneaker Shack</span></li>
+            <li><strong>R350K+</strong><span>in sales, Oct 2022 to Mar 2023</span></li>
+            <li><strong>+25%</strong><span>revenue growth</span></li>
+            <li><strong>0 → 1,600</strong><span>Instagram followers in four months</span></li>
+            <li><strong>10×</strong><span>return on a R1,000 Meta ad (Feb 2023)</span></li>
+            <li><strong>~3.4K</strong><span>average views on lookbook Reels</span></li>
+          </ul>
+
+          <ol class="timeline" data-reveal>
+            <li><span class="t-date">2021</span><span class="t-text">We start building Solemate</span></li>
+            <li><span class="t-date">Oct 2022</span><span class="t-text">R500K from The Sneaker Shack, pop-up store opens in Rosebank</span></li>
+            <li><span class="t-date">Nov 2022</span><span class="t-text">The Solemate app goes live</span></li>
+            <li><span class="t-date">Feb 2023</span><span class="t-text">R1,000 Meta ad brings in about R10,000</span></li>
+            <li><span class="t-date">Mar 2023</span><span class="t-text">We move fully online</span></li>
+            <li><span class="t-date">2024</span><span class="t-text">Funding runs out, operations stop</span></li>
+          </ol>
+
+          <div class="system">
+            <div class="system-copy" data-reveal>
+              <h4 class="h-sub">Three posts a week. One look.</h4>
+              <p>
+                Consistency builds trust. I set the visual direction, the post ideas and the calendar, and our
+                designers brought them to life in Adobe. Every <strong>Monday, Wednesday and Friday</strong>,
+                the feed showed up looking like one brand.
+              </p>
+              <ul class="formats">
+                <li><b>Release drops</b> A zoomed-in shoe backdrop, the product and a "SOLEMATE RELEASE" caption telling the shoe's story.</li>
+                <li><b>Lookbook Reels</b> On-foot styling clips.</li>
+                <li><b>Promos</b> Offers like 10% off a first order with SOLEMATEFIRST.</li>
+                <li><b>Pre-Loved</b> Used pairs on consignment. About 200 pairs signed up.</li>
+                <li><b>Community</b> Meet-the-founders posts and a Valentine's giveaway with about 350 entries.</li>
+              </ul>
+            </div>
+            <div class="system-grid" data-reveal>
+              <img class="big" src="assets/img/solemate/release-chicago.webp" alt="Solemate release post for the Air Jordan 1 'Chicago Lost & Found'" loading="lazy">
+              <img src="assets/img/solemate/ig-2023-06-26_photo.webp" alt="Solemate release post: Air Jordan 1 in yellow and black" loading="lazy">
+              <img src="assets/img/solemate/ig-2023-07-19_photo.webp" alt="Solemate release post: Air Jordan 5 in orange" loading="lazy">
+              <img src="assets/img/solemate/ig-2023-08-07_photo.webp" alt="Solemate release post: pink Jacquemus x Nike" loading="lazy">
+              <img src="assets/img/solemate/ig-2023-06-23_photo.webp" alt="Solemate promo: 10% off with code SOLEMATEFIRST" loading="lazy">
+            </div>
+          </div>
+
+          <div class="lesson" data-reveal>
+            <h4 class="h-sub">What it taught me</h4>
+            <p>
+              The pop-up made the sales. The screen didn't. When we went fully online in March 2023, sales
+              stopped, and by 2024 the funding had too. Now I never switch off a channel that's working until
+              the new one has proven itself, and I keep a real-world touchpoint while a brand grows online.
+            </p>
+          </div>
+        </article>
+
+        <!-- Well Dunn Group: 2ndPhase strategy -->
+        <article class="case case-strategy">
+          <div class="case-text" data-reveal>
+            <p class="kicker">Well Dunn Group · Sep – Oct 2026</p>
+            <h3 class="h-case">2ndPhase Computing</h3>
+            <p class="role">Marketing &amp; Google Ads strategy</p>
+            <p>
+              No website yet, and no budget to waste. I planned how a Krugersdorp repair shop turns a brand-new
+              site into phone calls and WhatsApps: start small and local, track every lead, and only spend more
+              once the numbers say so.
+            </p>
+            <span class="chip">Ready to launch with the website</span>
+          </div>
+
+          <ol class="phases" data-reveal>
+            <li>
+              <span class="p-when">Months 1–2</span>
+              <b>Phase 1</b>
+              <span>Krugersdorp and Mogale City only. One search campaign, two ad groups, R750 a month.</span>
+            </li>
+            <li>
+              <span class="p-when">Months 3–4</span>
+              <b>Extend</b>
+              <span>If it works, a second R750 takes the same campaign to the outer West Rand.</span>
+            </li>
+            <li>
+              <span class="p-when">Months 5–6</span>
+              <b>Widen out</b>
+              <span>Add business IT, CCTV and POS, then sales. Full review at month six.</span>
+            </li>
+          </ol>
+
+          <ul class="principles" data-reveal>
+            <li><b>Ads and SEO together.</b> Ads bring calls on day one, and their search terms show which pages to strengthen for SEO.</li>
+            <li><b>Local first.</b> Ads only reach people physically in the area.</li>
+            <li><b>Measure before spending.</b> Calls, WhatsApps, bookings and emails tracked in GA4 before a rand goes into ads.</li>
+            <li><b>Capped budget.</b> R1,500 a month at most until the results justify more.</li>
+            <li><b>The client owns it.</b> The ads account is in his name, with Well Dunn Group as manager.</li>
+          </ul>
+        </article>
+
+        <div class="toolkit" data-reveal>
+          <p class="brands-label">My toolkit</p>
+          <ul>
+            <li>Meta Ads Manager</li><li>Meta Business Suite</li><li>Google Ads</li><li>GA4</li>
+            <li>Shopify</li><li>SEO</li><li>Email marketing</li><li>Hootsuite</li><li>Content calendars</li>
+          </ul>
         </div>
       </div>
-    </div>
+    </section>
+    <!-- ============ 02 WEB DEVELOPMENT ============ -->
+    <section class="section" id="web">
+      <div class="wrap">
+        <header class="sec-head" data-reveal>
+          <span class="sec-no">02</span>
+          <h2 class="h-sec">Web <br>Development</h2>
+          <p class="sec-intro">
+            Sites with a job to do. I design them, build them by hand and launch them, so they look the part
+            <em>and</em> bring in the work. Built under <strong>Well Dunn Group</strong>.
+          </p>
+        </header>
 
-    <!-- SneakerVaultSA -->
-    <div class="work-card reveal">
-      <div class="work-card-inner">
-        <div class="work-year">2019 — Present</div>
-        <div class="work-title">SNEAKERVAULTSA</div>
-        <div class="work-role">Founder & Creator · YouTube</div>
-        <p class="work-desc">South Africa's go-to sneaker YouTube channel — reviews, styling guides, and buyer guides tailored for the SA market. Independently scripted, filmed, edited, and published every video. Built a loyal audience of 4,300+ subscribers and 928,000+ views entirely through organic content.</p>
-        <div class="work-stats">
-          <div class="work-stat">
-            <span class="work-stat-num">928K+</span>
-            <span class="work-stat-label">Total Views</span>
+        <!-- VSN DIGTL -->
+        <article class="project">
+          <div class="project-media" data-reveal>
+            <div class="device-desktop">
+              <span class="device-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+              <div class="logo-screen">
+                <img src="assets/img/logos/vsn-mark.webp" alt="VSN DIGTL chrome logo" width="441" height="242" loading="lazy">
+              </div>
+            </div>
+            <div class="device-phone">
+              <img src="assets/img/web/vsn/phone-home-what-are-we.webp" alt="VSN DIGTL 'What are we?' section on a phone" loading="lazy">
+            </div>
           </div>
-          <div class="work-stat">
-            <span class="work-stat-num">4,300+</span>
-            <span class="work-stat-label">Subscribers</span>
+
+          <div class="project-text" data-reveal>
+            <p class="kicker">Website · Aug – Oct 2026</p>
+            <h3 class="h-case">VSN DIGTL</h3>
+            <p class="tagline">A film studio's website should feel like one of its films.</p>
+            <p>
+              A dark, cinematic, video-led site for a Johannesburg creative production house, built section by
+              section to their Brand Bible. The showreel plays behind the homepage, six campaigns play on hover,
+              and the page loops from the footer back to the top without a visible jump.
+            </p>
+            <ul class="proof">
+              <li><strong>850 KB → 44–78 KB</strong><span>per page, by moving fonts into small shared files</span></li>
+              <li><strong>90 MB → on demand</strong><span>films load only when hovered or opened</span></li>
+            </ul>
+            <ul class="tags"><li>Design &amp; build</li><li>Video on the web</li><li>Enquiry form</li><li>Hosting</li></ul>
+            <div class="links">
+              <a class="btn" href="work/vsn-digtl.html">Case study <span aria-hidden="true">&#8599;</span></a>
+              <a class="btn btn-ghost" href="https://joshuadnn-eng.github.io/vsn-digtl/" target="_blank" rel="noopener">Live preview <span aria-hidden="true">&#8599;</span></a>
+            </div>
           </div>
-          <div class="work-stat">
-            <span class="work-stat-num">17K+</span>
-            <span class="work-stat-label">Watch Hours</span>
+        </article>
+
+        <!-- 2ndPhase Computing -->
+        <article class="project flip">
+          <div class="project-media" data-reveal>
+            <div class="device-desktop">
+              <span class="device-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+              <video data-autoplay muted loop playsinline preload="none" poster="assets/video/2ndphase-hero.jpg" aria-label="The 2ndPhase Computing homepage">
+                <source src="assets/video/2ndphase-hero.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="device-phone">
+              <img src="assets/img/web/2ndphase/phone-ask-patch-chat.webp" alt="The 'Ask Patch' chat helper on a phone" loading="lazy">
+            </div>
+          </div>
+
+          <div class="project-text" data-reveal>
+            <p class="kicker">Brand &amp; website · Sep – Oct 2026</p>
+            <h3 class="h-case">2ndPhase Computing</h3>
+            <p class="tagline">From "something's broken" to talking to the shop in two taps.</p>
+            <p>
+              A brand refresh, a mascot and a 15-page website for a Krugersdorp computer repair shop with a
+              4.8-star Google rating and no website. It leads with the customer's problem, not tech terms, and
+              every button opens WhatsApp with the details already typed.
+            </p>
+            <ul class="proof">
+              <li><strong>15 pages</strong><span>with one page per service for local Google searches</span></li>
+              <li><strong>R0 a month</strong><span>for the "Ask Patch" helper: tap-to-answer, no AI fees</span></li>
+            </ul>
+            <ul class="tags"><li>Brand refresh</li><li>Mascot</li><li>Local SEO</li><li>Value calculator</li></ul>
+            <div class="links">
+              <a class="btn" href="work/2ndphase.html">Case study <span aria-hidden="true">&#8599;</span></a>
+              <a class="btn btn-ghost" href="https://joshuadnn-eng.github.io/2ndphaseComputing/" target="_blank" rel="noopener">Live preview <span aria-hidden="true">&#8599;</span></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- What Well Dunn Group offers -->
+        <div class="offer" data-reveal>
+          <div class="offer-head">
+            <img src="assets/img/logos/wdg-mark-reversed.svg" alt="" width="56" height="56">
+            <div>
+              <p class="kicker">Well Dunn Group</p>
+              <h3 class="h-sub">One studio. Strategy to launch.</h3>
+            </div>
+          </div>
+          <ul class="offer-list">
+            <li><span>01</span><b>Websites</b>Designed and hand-built, fast on phones, easy to update.</li>
+            <li><span>02</span><b>Brand identity</b>Logos, colours, type, mascots and the guide that holds it together.</li>
+            <li><span>03</span><b>Local SEO</b>A page for every service, written for how people actually search.</li>
+            <li><span>04</span><b>Google Ads &amp; go-to-market</b>Phased plans that start small and grow on results.</li>
+            <li><span>05</span><b>Launch &amp; handover</b>Hosting, tracking and a plain-English guide, so you own it all.</li>
+          </ul>
+          <ol class="process">
+            <li><b>Discover</b>Research the business, the reviews, the competition.</li>
+            <li><b>Design</b>Desktop and phone designs, approved before a line of code.</li>
+            <li><b>Build</b>Hand-built pages, tested on every screen.</li>
+            <li><b>Launch</b>Live, tracked, handed over.</li>
+          </ol>
+        </div>
+
+        <div class="toolkit" data-reveal>
+          <p class="brands-label">Built with</p>
+          <ul>
+            <li>HTML</li><li>CSS</li><li>JavaScript</li><li>Python</li><li>GitHub Pages</li>
+            <li>Formspree</li><li>ffmpeg</li><li>Playwright</li><li>Afrihost</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- ============ 03 BRAND BUILDING ============ -->
+    <section class="section" id="content">
+      <div class="wrap">
+        <header class="sec-head" data-reveal>
+          <span class="sec-no">03</span>
+          <h2 class="h-sec">Brand <br>Building</h2>
+          <p class="sec-intro">
+            My own brand is my proof of concept. Since 2020 I've run SneakerVaultSA like a small media business:
+            <em>strategy, production, analytics and sales,</em> all managed by me.
+          </p>
+        </header>
+
+        <article class="case">
+          <div class="case-intro">
+            <div class="case-text" data-reveal>
+              <p class="kicker">Case study · 2020 – now</p>
+              <h3 class="h-case long">SneakerVaultSA</h3>
+              <p class="role">Founder · Strategy, production &amp; partnerships</p>
+              <p>
+                A sneaker and streetwear media brand I started from zero and still run on my own. Every part of it
+                is a marketing job: choosing the audience, planning the calendar, making the content, reading the
+                numbers and selling partnerships to brands.
+              </p>
+            </div>
+            <figure class="case-hero" data-reveal>
+              <img src="assets/img/me/me-street-green.webp" alt="Joshua Dunn in a green track jacket, holding a coffee, in front of a white fence" loading="lazy">
+            </figure>
+          </div>
+
+          <ul class="results" data-reveal>
+            <li><strong>1M+</strong><span>organic views across long-form and short-form video</span></li>
+            <li><strong>2.5M</strong><span>views on a single short-form video</span></li>
+            <li><strong>2.8M</strong><span>short-form views in one 90-day period</span></li>
+            <li><strong>17.6K</strong><span>hours of watch time</span></li>
+            <li><strong>~10</strong><span>paid pieces for Shesha, after I pitched them</span></li>
+            <li><strong>10+</strong><span>brands partnered with, from ASICS to Superbalist</span></li>
+          </ul>
+
+          <div class="system">
+            <div class="system-copy" data-reveal>
+              <h4 class="h-sub">Run like a business, not a hobby.</h4>
+              <p>The same playbook I'd bring to your brand, tested with my own name on it.</p>
+              <ul class="formats">
+                <li><b>Know the audience</b>92% of my viewers are men and 76% are 18 to 34, so every shoe, price point and title is chosen for sneaker buyers in that bracket.</li>
+                <li><b>Win the search</b>Over half of my short-form views come from search, not the feed. So titles, covers and descriptions are written around what people type, like prices and "where to buy".</li>
+                <li><b>Package for the click</b>One recognisable house style for every thumbnail and cover, designed in versions and refined on results.</li>
+                <li><b>Sell the partnership</b>I pitched Shesha a review idea and became their repeat creator for about six months. I've since delivered work for ASICS, Superbalist, Converse, Reebok and Puma, and a branded brief for Russian Bear × YFM.</li>
+                <li><b>Run the operation</b>My own content calendar, my own pricing and packages, and every shoot, edit and motion graphic done in-house.</li>
+              </ul>
+            </div>
+            <div class="system-grid" data-reveal>
+              <img class="wide" src="assets/img/content/thumbs/megaride-vs-hyperboost.webp" alt="Thumbnail: Megaride vs Hyperboost, worth R500 more?" loading="lazy">
+              <img src="assets/img/content/shorts/chuck01-y2kpuffy.webp" alt="Cover: Y2K Puffy Chuck" loading="lazy">
+              <img src="assets/img/content/shorts/short01-whichonewins.webp" alt="Cover: Which one wins?" loading="lazy">
+              <img src="assets/img/content/shorts/chuck05-hiddengem.webp" alt="Cover: Hidden gem" loading="lazy">
+              <img src="assets/img/content/shorts/short04-widefeet.webp" alt="Cover: Wide feet?" loading="lazy">
+            </div>
+          </div>
+
+          <div class="lesson" data-reveal>
+            <h4 class="h-sub">What it proves</h4>
+            <p>
+              In October 2026 I relaunched with a new thumbnail style and a heavier short-form schedule. The next 28
+              days brought 30,000 views, 21,800 more than usual. I don't just recommend tactics. I test them, measure
+              them and keep what works.
+            </p>
+          </div>
+        </article>
+
+        <!-- Production skills -->
+        <div class="content-block">
+          <div class="content-head" data-reveal>
+            <h3 class="h-sub">Made in-house</h3>
+            <p>I shoot, edit and animate my own work, so I can brief designers and editors in their own language.</p>
+          </div>
+          <div class="reels" data-reveal>
+            <figure class="reel">
+              <video data-autoplay muted loop playsinline preload="none" poster="assets/video/reel-top5-essentials.jpg" aria-label="Top 5 Essentials short-form video">
+                <source src="assets/video/reel-top5-essentials.mp4" type="video/mp4">
+              </video>
+              <figcaption>Short-form video</figcaption>
+            </figure>
+            <figure class="reel">
+              <video data-autoplay muted loop playsinline preload="none" poster="assets/video/reel-ootd.jpg" aria-label="Outfit of the day short-form video">
+                <source src="assets/video/reel-ootd.mp4" type="video/mp4">
+              </video>
+              <figcaption>Editing &amp; captions</figcaption>
+            </figure>
+            <figure class="reel">
+              <video data-autoplay muted loop playsinline preload="none" poster="assets/video/mg-classic5.jpg" aria-label="Classic 5 motion graphics">
+                <source src="assets/video/mg-classic5.mp4" type="video/mp4">
+              </video>
+              <figcaption>Motion graphics</figcaption>
+            </figure>
           </div>
         </div>
-        <div class="work-tags">
-          <span class="tag">YouTube</span>
-          <span class="tag">Video Production</span>
-          <span class="tag">Reviews</span>
-          <span class="tag">Sneakers</span>
+
+        <div class="toolkit" data-reveal>
+          <p class="brands-label">My toolkit</p>
+          <ul>
+            <li>Premiere Pro</li><li>CapCut</li><li>Lightroom</li><li>Canva</li>
+            <li>Audience analytics</li><li>Content calendars</li><li>Brand pitching</li>
+          </ul>
         </div>
       </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="section" id="experience">
+      <div class="wrap">
+        <header class="sec-head" data-reveal>
+          <span class="sec-no">04</span>
+          <h2 class="h-sec">Experience</h2>
+          <p class="sec-intro">From the shop floor to the founder's seat. Every role taught me something the next one needed.</p>
+        </header>
+
+        <ol class="jobs">
+          <li class="job" data-reveal>
+            <span class="job-when">2026 – Now</span>
+            <div>
+              <h3>Founder <span>· Well Dunn Group</span></h3>
+              <p>Digital marketing &amp; web studio. Go-to-market plans, SEO and Google Ads strategy, websites and brand identity for clients like VSN DIGTL and 2ndPhase Computing.</p>
+            </div>
+          </li>
+          <li class="job" data-reveal>
+            <span class="job-when">2020 – Now</span>
+            <div>
+              <h3>Founder, Content &amp; Partnerships <span>· SneakerVaultSA</span></h3>
+              <p>Built and run a sneaker media brand on my own: audience strategy, production, analytics and paid partnerships with brands like ASICS, Shesha and Superbalist. Over a million organic views. <a href="#content">See how &#8599;</a></p>
+            </div>
+          </li>
+          <li class="job" data-reveal>
+            <span class="job-when">2021 – 2024</span>
+            <div>
+              <h3>Co-founder &amp; Head of Marketing and Community <span>· Solemate</span></h3>
+              <p>Built a sneaker marketplace with a pop-up store and its own app. Raised R500K, drove R350K+ in sales and grew Instagram from 0 to 1,600 in four months. <a href="work/solemate.html">Case study &#8599;</a></p>
+            </div>
+          </li>
+          <li class="job" data-reveal>
+            <span class="job-when">2018 – 2019</span>
+            <div>
+              <h3>Depot Supervisor <span>· Samuels Oil (Samuels Group)</span></h3>
+              <p>Ran the depot, sold Veedol lubricants to factory clients, and managed stock and the fleet.</p>
+            </div>
+          </li>
+          <li class="job" data-reveal>
+            <span class="job-when">2015 – 2017</span>
+            <div>
+              <h3>Sales Assistant <span>· adidas</span></h3>
+              <p>Where it started: selling footwear and apparel for a global sportswear brand, handling stock and working the tills.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="edu" data-reveal>
+          <div>
+            <p class="kicker">Education</p>
+            <p class="edu-main"><b>BSocSci, Politics &amp; International Studies</b>Monash University, 2018</p>
+          </div>
+          <div>
+            <p class="kicker">Certifications</p>
+            <ul>
+              <li>Google Digital Marketing &amp; E-commerce Professional Certificate</li>
+              <li>Google AI Essentials</li>
+              <li>Google Project Management and Data Analytics coursework</li>
+            </ul>
+          </div>
+          <a class="btn" href="assets/docs/Joshua-Dunn-CV.pdf" download>Download my CV <span aria-hidden="true">&#8595;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Contact</p>
+        <h2 class="h-contact" data-reveal>Got an idea? <br><span class="gold">Let's make it happen.</span></h2>
+        <p class="lead" data-reveal>Pick the one that fits, and I'll get back to you within a day.</p>
+
+        <div class="doors two" data-reveal>
+          <a class="door" href="mailto:joshuadnn@gmail.com?subject=Role%20for%20Joshua%20Dunn">
+            <span class="door-no">01</span>
+            <b>Hire me</b>
+            <span>Full-time and remote roles in marketing, content and digital.</span>
+            <i aria-hidden="true">&#8599;</i>
+          </a>
+          <a class="door" href="https://wa.me/27844860239?text=Hi%20Joshua%2C%20I%27d%20like%20to%20start%20a%20project%20with%20Well%20Dunn%20Group." target="_blank" rel="noopener">
+            <span class="door-no">02</span>
+            <b>Start a project</b>
+            <span>Websites, brand identity, SEO and ads through Well Dunn Group.</span>
+            <i aria-hidden="true">&#8599;</i>
+          </a>
+        </div>
+
+        <ul class="direct" data-reveal>
+          <li><span>Email</span><a href="mailto:joshuadnn@gmail.com">joshuadnn@gmail.com</a></li>
+          <li><span>WhatsApp</span><a href="https://wa.me/27844860239" target="_blank" rel="noopener">084 486 0239</a></li>
+          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/joshua-dunn-48a591405" target="_blank" rel="noopener">joshua-dunn</a></li>
+          <li><span>CV</span><a href="assets/docs/Joshua-Dunn-CV.pdf" download>Download PDF</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-mark" aria-hidden="true">Creativity &times;<br>Execution</div>
+    <div class="footer-row">
+      <span class="footer-brand">
+        <img src="assets/img/logos/wdg-mark-reversed.svg" alt="" width="28" height="28">
+        &copy; 2026 Joshua Dunn · Well Dunn Group
+      </span>
+      <span>Johannesburg, South Africa</span>
+      <a href="#top">Back to top &#8593;</a>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- YOUTUBE -->
-<section id="youtube" style="background: var(--grey);">
-  <div class="reveal">
-    <p class="section-tag">04 — SneakerVaultSA</p>
-    <h2 class="section-title">TOP PERFORMING<br>VIDEOS</h2>
-  </div>
-  <div class="yt-grid">
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
-      <div class="yt-thumb">
-        <div class="yt-play"></div>
-        <span class="yt-thumb-label">12:49</span>
-      </div>
-      <div class="yt-info">
-        <div class="yt-title">Where I Buy My Sneakers || South Africa</div>
-        <div class="yt-views">37K views · 969 likes · 92 comments</div>
-      </div>
-    </a>
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
-      <div class="yt-thumb">
-        <div class="yt-play"></div>
-        <span class="yt-thumb-label">10:26</span>
-      </div>
-      <div class="yt-info">
-        <div class="yt-title">How to Style the Adidas Forum | Koti...</div>
-        <div class="yt-views">31K views · 331 likes · 43 comments</div>
-      </div>
-    </a>
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
-      <div class="yt-thumb">
-        <div class="yt-play"></div>
-        <span class="yt-thumb-label">8:30</span>
-      </div>
-      <div class="yt-info">
-        <div class="yt-title">Where To Buy Sneakers In South Africa — Major Secrets</div>
-        <div class="yt-views">31K views · 506 likes · 135 comments</div>
-      </div>
-    </a>
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
-      <div class="yt-thumb">
-        <div class="yt-play"></div>
-        <span class="yt-thumb-label">9:29</span>
-      </div>
-      <div class="yt-info">
-        <div class="yt-title">Adidas Forum "White" In-Depth Review</div>
-        <div class="yt-views">29K views · 243 likes · 34 comments</div>
-      </div>
-    </a>
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
-      <div class="yt-thumb">
-        <div class="yt-play"></div>
-        <span class="yt-thumb-label">7:19</span>
-      </div>
-      <div class="yt-info">
-        <div class="yt-title">Puma's Answer to the Adidas Samba — Puma Palermo</div>
-        <div class="yt-views">21K views · 139 likes · 25 comments</div>
-      </div>
-    </a>
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="yt-card reveal">
-      <div class="yt-thumb">
-        <div class="yt-play"></div>
-        <span class="yt-thumb-label">4:23</span>
-      </div>
-      <div class="yt-info">
-        <div class="yt-title">Asics Gel Venture 6 In-Depth Review</div>
-        <div class="yt-views">20K views · 90 likes · 30 comments</div>
-      </div>
-    </a>
-  </div>
-</section>
-
-<!-- INFLUENCER -->
-<section id="influencer">
-  <div class="reveal">
-    <p class="section-tag">05 — Influencer Work</p>
-    <h2 class="section-title">BRIEF TO<br>EXECUTION</h2>
-  </div>
-  <div class="inf-content">
-    <div class="inf-text reveal">
-      <p>I've collaborated with <strong>20+ global and South African brands</strong> as an influencer — receiving briefs, developing creative concepts, and executing content that drives awareness and conversion.</p>
-      <p>From <strong>luxury fashion</strong> (YSL, Diesel) to <strong>major sportswear</strong> (Nike, Adidas, Puma, Reebok, Converse, Vans, Asics) to <strong>SA retail</strong> (Superbalist, Tekkie Town, Sidestep) — I've adapted my voice and aesthetic to serve each brand's specific audience and objectives.</p>
-      <p>Every collaboration is executed with a clear understanding of the brief, the platform, and the community — ensuring content that feels authentic rather than forced.</p>
-    </div>
-    <div class="inf-stats reveal">
-      <div class="inf-stat">
-        <div class="inf-stat-num">20+</div>
-        <div class="inf-stat-label">Brand Partnerships</div>
-      </div>
-      <div class="inf-stat">
-        <div class="inf-stat-num">138K</div>
-        <div class="inf-stat-label">Peak Post Views</div>
-      </div>
-      <div class="inf-stat">
-        <div class="inf-stat-num">65K</div>
-        <div class="inf-stat-label">Views Last 90 Days</div>
-      </div>
-      <div class="inf-stat">
-        <div class="inf-stat-num">12.3K</div>
-        <div class="inf-stat-label">IG Followers</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="services-section" id="services">
-  <div class="reveal">
-    <p class="section-tag">06 — Services</p>
-    <h2 class="section-title">WHAT I<br>BRING TO THE TABLE</h2>
-  </div>
-  <div class="services-grid">
-    <div class="service reveal">
-      <span class="service-icon">📱</span>
-      <div class="service-title">Social Media Management</div>
-      <p class="service-desc">End-to-end management of multi-platform social accounts — strategy, content calendars, scheduling, community engagement, and monthly reporting across Instagram, TikTok, Facebook, YouTube, and LinkedIn.</p>
-    </div>
-    <div class="service reveal">
-      <span class="service-icon">🎬</span>
-      <div class="service-title">Content Creation</div>
-      <p class="service-desc">Original content across all formats — scripted short-form video (TikTok/Reels), long-form YouTube, static graphics (Canva), and platform-specific copy. Full production from concept through to publish.</p>
-    </div>
-    <div class="service reveal">
-      <span class="service-icon">📊</span>
-      <div class="service-title">Strategy & Analytics</div>
-      <p class="service-desc">Data-driven strategy built on performance analytics, A/B testing, and trend monitoring. KPI tracking across Meta Business Suite, Google Analytics, and YouTube Analytics with actionable monthly reporting.</p>
-    </div>
-    <div class="service reveal">
-      <span class="service-icon">🤝</span>
-      <div class="service-title">Influencer Marketing</div>
-      <p class="service-desc">Brief interpretation and execution as an influencer, plus influencer identification and partnership management. Experienced activating creator communities for brand launches, giveaways, and campaigns.</p>
-    </div>
-    <div class="service reveal">
-      <span class="service-icon">🛒</span>
-      <div class="service-title">eCommerce Growth</div>
-      <p class="service-desc">Organic social strategy that drives real commercial outcomes. Proven track record of linking content directly to revenue — R350K+ GMV with zero paid media spend through community-first storytelling.</p>
-    </div>
-    <div class="service reveal">
-      <span class="service-icon">⚡</span>
-      <div class="service-title">Brand Storytelling</div>
-      <p class="service-desc">Building brand identity from zero through authentic, consistent content. From investor decks to community posts — I turn brand thinking into compelling digital narratives that convert audiences into advocates.</p>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact-section" id="contact">
-  <p class="section-tag reveal">07 — Contact</p>
-  <h2 class="contact-title reveal">LET'S<br><span class="outline">WORK</span><br>TOGETHER</h2>
-  <a href="mailto:joshuadnn@gmail.com" class="contact-email reveal">joshuadnn@gmail.com</a>
-  <div class="social-links reveal">
-    <a href="https://www.instagram.com/joshuadunn.__/" target="_blank" class="social-link">📸 Instagram</a>
-    <a href="https://www.instagram.com/hey.solemate/" target="_blank" class="social-link">👟 Solemate</a>
-    <a href="https://www.youtube.com/channel/UCUSegjOgE771VITLk8arK7A" target="_blank" class="social-link">▶ YouTube</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 Joshua Dunn. All rights reserved.</p>
-  <p>Krugersdorp, South Africa · EST/PST Available</p>
-</footer>
-
-<script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX; mouseY = e.clientY;
-    cursor.style.left = mouseX + 'px';
-    cursor.style.top = mouseY + 'px';
-  });
-
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.12;
-    ringY += (mouseY - ringY) * 0.12;
-    ring.style.left = ringX + 'px';
-    ring.style.top = ringY + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-      ring.style.width = '60px';
-      ring.style.height = '60px';
-      ring.style.opacity = '0.3';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-      ring.style.width = '36px';
-      ring.style.height = '36px';
-      ring.style.opacity = '0.5';
-    });
-  });
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  reveals.forEach(el => observer.observe(el));
-</script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
